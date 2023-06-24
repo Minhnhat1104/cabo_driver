@@ -4,7 +4,7 @@
  *
  * @format
  */
-
+const path = require('path');
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -13,5 +13,11 @@ module.exports = {
         inlineRequires: true,
       },
     }),
+  },
+  extraNodeModules: {
+    '@base': path.resolve(__dirname, 'src/base'),
+    '@assets': path.resolve(__dirname, 'src/base'),
+    '@theme': path.resolve(__dirname, 'src/base'),
+    '@authentication': path.resolve(__dirname, 'src/authentication'),
   },
 };
