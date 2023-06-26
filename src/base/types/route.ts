@@ -1,5 +1,5 @@
 export interface Route {
   name: string;
-  component: React.FC;
+  component: React.FC<any>;
   options: any;
 }

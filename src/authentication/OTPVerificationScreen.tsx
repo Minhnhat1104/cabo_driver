@@ -1,13 +1,20 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import OTPinput from './components/OTPinput';
+import {Button} from '@rneui/themed';
+import {SCREEN_HOME} from '@base/config/constants';
 
 interface OTP {
   value: number | null;
   focus: boolean;
 }
 
-const OTPScreen: React.FC = () => {
+interface OTPScreenProps {
+  navigation: any;
+}
+
+const OTPScreen = (props: OTPScreenProps) => {
+  const {navigation} = props;
   const [otps, setOtps] = useState<OTP[]>([
     {value: null, focus: false},
     {value: null, focus: false},
@@ -40,6 +47,13 @@ const OTPScreen: React.FC = () => {
 
     setOtps(newOtps);
   };
+
+  const handleContinue = () => {
+    // handle send OTP here
+
+    navigation.navigate(SCREEN_HOME);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.otpContainer}>
@@ -54,6 +68,13 @@ const OTPScreen: React.FC = () => {
           );
         })}
       </View>
+      <Button
+        type="clear"
+        containerStyle={{marginTop: 16}}
+        onPress={handleContinue}
+        color={'primary'}>
+        Continue
+      </Button>
     </View>
   );
 };
