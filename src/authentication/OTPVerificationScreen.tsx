@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import OTPinput from './components/OTPinput';
-import {Button} from '@rneui/themed';
+import {Button, makeStyles, useTheme} from '@rneui/themed';
 import {SCREEN_HOME} from '@base/config/constants';
 
 interface OTP {
@@ -15,6 +15,8 @@ interface OTPScreenProps {
 
 const OTPScreen = (props: OTPScreenProps) => {
   const {navigation} = props;
+  const styles = useStyles();
+  const {theme} = useTheme();
   const [otps, setOtps] = useState<OTP[]>([
     {value: null, focus: false},
     {value: null, focus: false},
@@ -70,20 +72,29 @@ const OTPScreen = (props: OTPScreenProps) => {
       </View>
       <Button
         type="clear"
-        containerStyle={{marginTop: 16}}
+        containerStyle={{
+          marginTop: 16,
+          width: 'auto',
+        }}
+        buttonStyle={{width: 'auto'}}
+        color={theme.colors.white}
+        title="Continue"
+        titleStyle={{
+          color: theme.colors.white,
+          fontSize: 20,
+        }}
         onPress={handleContinue}
-        color={'primary'}>
-        Continue
-      </Button>
+      />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles((theme, props: any) => ({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: theme.colors.secondary,
   },
   otpContainer: {
     flexDirection: 'row',
@@ -98,6 +109,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
   },
-});
+}));
 
 export default OTPScreen;
