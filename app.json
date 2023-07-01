@@ -1,4 +1,7 @@
 {
   "name": "cabo_driver",
-  "displayName": "cabo_driver"
+  "displayName": "cabo_driver",
+  "expo": {
+    "plugins": ["@react-native-firebase/app", "@react-native-firebase/auth"]
+  }
 }
