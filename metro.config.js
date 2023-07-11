@@ -14,10 +14,14 @@ module.exports = {
       },
     }),
   },
-  extraNodeModules: {
-    '@base': path.resolve(__dirname, 'src/base'),
-    '@assets': path.resolve(__dirname, 'src/base'),
-    '@theme': path.resolve(__dirname, 'src/base'),
-    '@authentication': path.resolve(__dirname, 'src/authentication'),
+  resolver: {
+    extraNodeModules: {
+      '@base': path.resolve(__dirname, 'src/base'),
+      '@assets': path.resolve(__dirname, 'src/base/assets'),
+      '@theme': path.resolve(__dirname, 'src/base/theme'),
+      '@authentication': path.resolve(__dirname, 'src/authentication'),
+      '@PhoneLogin': path.resolve(__dirname, 'src/PhoneLogin'),
+      '@Home': path.resolve(__dirname, 'src/Home'),
+    },
   },
 };

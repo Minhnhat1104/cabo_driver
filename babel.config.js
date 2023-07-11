@@ -9,6 +9,8 @@ module.exports = {
           '@assets': './src/base/assets',
           '@theme': './src/base/theme',
           '@authentication': './src/authentication',
+          '@PhoneLogin': './src/PhoneLogin',
+          '@Home': './src/Home',
         },
       },
     ],

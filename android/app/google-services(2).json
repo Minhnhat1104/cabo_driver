@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "354255530571",
+    "project_id": "otp-verfication-e567c",
+    "storage_bucket": "otp-verfication-e567c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354255530571:android:ffe500275e74e6575b7bce",
+        "android_client_info": {
+          "package_name": "com.cabo_driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354255530571-pi4f92e2g5drm3mo73hc9o889e562uho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw44LJOqh8UIcVuFWzW30-RPX-m1MlcSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354255530571-pi4f92e2g5drm3mo73hc9o889e562uho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

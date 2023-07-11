@@ -1,5 +1,5 @@
 import React from 'react';
-import {Tab, Text, TabView, useTheme} from '@rneui/themed';
+import {Tab, Text, TabView, useTheme, Button} from '@rneui/themed';
 
 function HomeScreen() {
   const {theme} = useTheme();

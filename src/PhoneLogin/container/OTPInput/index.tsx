@@ -1,20 +1,21 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
-import OTPinput from '../PhoneLogin/components/OTPinput';
 import {Button, makeStyles, useTheme} from '@rneui/themed';
-import {SCREEN_HOME} from '@base/config/constants';
+import OTPinput from '@PhoneLogin/components/OTPinput';
+import {screens} from '@base/config/screen';
 
 interface OTP {
   value: number | null;
   focus: boolean;
 }
 
-interface OTPScreenProps {
+interface OTPInputProps {
   navigation: any;
+  onContinue: any;
 }
 
-const OTPScreen = (props: OTPScreenProps) => {
-  const {navigation} = props;
+const OTPInput = (props: OTPInputProps) => {
+  const {navigation, onContinue} = props;
   const styles = useStyles();
   const {theme} = useTheme();
   const [otps, setOtps] = useState<OTP[]>([
@@ -50,10 +51,11 @@ const OTPScreen = (props: OTPScreenProps) => {
     setOtps(newOtps);
   };
 
-  const handleContinue = () => {
-    // handle send OTP here
+  const handleContinue = async () => {
+    const otp = otps.map((v: any) => v?.value).join('');
 
-    navigation.navigate(SCREEN_HOME);
+    await onContinue(otp);
+    navigation.navigate(screens.KEY_SCREEN_HOME);
   };
 
   return (
@@ -83,7 +85,7 @@ const OTPScreen = (props: OTPScreenProps) => {
           color: theme.colors.white,
           fontSize: 20,
         }}
-        onPress={handleContinue}
+        onPress={() => handleContinue()}
       />
     </View>
   );
@@ -111,4 +113,4 @@ const useStyles = makeStyles((theme, props: any) => ({
   },
 }));
 
-export default OTPScreen;
+export default OTPInput;

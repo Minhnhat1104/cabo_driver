@@ -1,33 +1,35 @@
-import HomeScreen from '@authentication/HomeScreen';
 import {Route} from '@base/types/route';
+// screen
+import HomeScreen from '@Home/screen/HomeScreen';
 import OTPScreen from '@authentication/OTPVerificationScreen';
-import PhoneLoginScreen from '@authentication/PhoneLoginScreen';
 import SplashScreen from '@authentication/SplashScreen';
-import {
-  SCREEN_SPLASH,
-  SCREEN_PHONE_LOGIN,
-  SCREEN_OTP_VERIFICATION,
-  SCREEN_HOME,
-} from '@base/config/constants';
+import PhoneLoginScreen from '@PhoneLogin/screen/PhoneLoginScreen';
+import VehicleRegisterScreen from '@PhoneLogin/screen/VehicleRegisterScreen';
+import {screens} from '@base/config/screen';
 
 export const routes: Route[] = [
   {
-    name: SCREEN_SPLASH,
+    name: screens.KEY_SCREEN_SPLASH,
     component: SplashScreen,
     options: {headerShown: false},
   },
   {
-    name: SCREEN_PHONE_LOGIN,
+    name: screens.KEY_SCREEN_PHONE_LOGIN,
     component: PhoneLoginScreen,
     options: {title: 'Đăng nhập', headerShown: false},
   },
   {
-    name: SCREEN_OTP_VERIFICATION,
+    name: screens.KEY_SCREEN_VEHICLE_REGISTER,
+    component: VehicleRegisterScreen,
+    options: {title: 'Đăng ký phương tiện', headerShown: false},
+  },
+  {
+    name: screens.KEY_SCREEN_OTP_VERIFICATION,
     component: OTPScreen,
     options: {title: 'Xác thực OTP'},
   },
   {
-    name: SCREEN_HOME,
+    name: screens.KEY_SCREEN_HOME,
     component: HomeScreen,
     options: {title: 'Trang chủ'},
   },

@@ -1,5 +1,5 @@
 import CaboLabel from '@base/components/CaboLabel';
-import {SCREEN_PHONE_LOGIN} from '@base/config/constants';
+import {screens} from '@base/config/screen';
 import {makeStyles} from '@rneui/themed';
 import React, {useEffect} from 'react';
 import {View, Text, ImageBackground, StyleSheet} from 'react-native';
@@ -9,7 +9,7 @@ const SplashScreen = ({navigation}: any) => {
   // Điều hướng đến màn hình đăng nhập sau khi hiển thị Splash Screen
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate(SCREEN_PHONE_LOGIN);
+      navigation.navigate(screens.KEY_SCREEN_HOME);
     }, 3000);
   }, []);
 
