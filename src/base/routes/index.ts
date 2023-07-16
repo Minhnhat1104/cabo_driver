@@ -1,7 +1,7 @@
 import {Route} from '@base/types/route';
 // screen
 import HomeScreen from '@Home/screen/HomeScreen';
-import OTPScreen from '@authentication/OTPVerificationScreen';
+import OTPScreen from '@PhoneLogin/screen/OTPVerificationScreen';
 import SplashScreen from '@authentication/SplashScreen';
 import PhoneLoginScreen from '@PhoneLogin/screen/PhoneLoginScreen';
 import VehicleRegisterScreen from '@PhoneLogin/screen/VehicleRegisterScreen';
@@ -31,6 +31,6 @@ export const routes: Route[] = [
   {
     name: screens.KEY_SCREEN_HOME,
     component: HomeScreen,
-    options: {title: 'Trang chủ'},
+    options: {title: 'Trang chủ', headerShown: false},
   },
 ];

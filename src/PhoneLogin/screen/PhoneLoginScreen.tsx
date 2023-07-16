@@ -50,17 +50,22 @@ const PhoneLoginScreen = ({navigation}: any) => {
 
       if (newIdToken) {
         storeKeyData(STORE_KEY_TOKEN, newIdToken);
+        // console.log(
+        //   '🚀 ~ file: PhoneLoginScreen.tsx:54 ~ newIdToken:',
+        //   newIdToken,
+        // );
 
-        const params = {
-          fullName: user?.fullName,
-          phoneNumber: user?.phoneNumber,
-        };
-        mPostToken.mutate(params, {
-          onSuccess: (data, variables, context) => {
-            storeKeyData(STORE_KEY_DRIVER_ID, data?.driverId);
-            navigation.navigate(screens.KEY_SCREEN_VEHICLE_REGISTER);
-          },
-        });
+        // const params = {
+        //   fullName: user?.fullName,
+        //   phoneNumber: user?.phoneNumber,
+        // };
+        // mPostToken.mutate(params, {
+        //   onSuccess: (data, variables, context) => {
+        //     storeKeyData(STORE_KEY_DRIVER_ID, data?.driverId);
+
+        //     navigation.navigate(screens.KEY_SCREEN_VEHICLE_REGISTER);
+        //   },
+        // });
       }
 
       // Some Android devices can automatically process the verification code (OTP) message, and the user would NOT need to enter the code.

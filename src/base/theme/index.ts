@@ -16,6 +16,10 @@ export const theme = createTheme({
       raised: true,
       buttonStyle: {
         margin: 0,
+        borderRadius: 8,
+      },
+      containerStyle: {
+        borderRadius: 8,
       },
     },
     Input: {

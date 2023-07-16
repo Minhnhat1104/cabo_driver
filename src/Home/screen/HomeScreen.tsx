@@ -1,7 +1,8 @@
 import React from 'react';
 import {Tab, Text, TabView, useTheme, Button} from '@rneui/themed';
+import Home from '@Home/container/Home';
 
-function HomeScreen() {
+function HomeScreen({navigation}: any) {
   const {theme} = useTheme();
   const [index, setIndex] = React.useState(0);
 
@@ -9,7 +10,7 @@ function HomeScreen() {
     <>
       <TabView value={index} onChange={setIndex} animationType="spring">
         <TabView.Item style={{backgroundColor: 'white', width: '100%'}}>
-          <Text h1>Home</Text>
+          <Home navigation={navigation} />
         </TabView.Item>
         <TabView.Item style={{backgroundColor: 'white', width: '100%'}}>
           <Text h1>History</Text>
@@ -33,8 +34,8 @@ function HomeScreen() {
           title="Home"
           titleStyle={{fontSize: 12, color: theme.colors.secondary}}
           icon={{
-            name: 'file',
-            type: 'font-awesome-5',
+            name: 'home-outline',
+            type: 'ionicon',
             color: theme.colors.secondary,
           }}
         />
@@ -42,20 +43,19 @@ function HomeScreen() {
           title="History"
           titleStyle={{fontSize: 12, color: theme.colors.secondary}}
           icon={{
-            name: 'file',
-            type: 'font-awesome-5',
+            name: 'time-outline',
+            type: 'ionicon',
             color: theme.colors.secondary,
           }}
         />
         <Tab.Item
-          title="Wallet"
+          title="Finance"
           titleStyle={{fontSize: 12, color: theme.colors.secondary}}
-          icon={{name: 'heart', type: 'ionicon', color: theme.colors.secondary}}
-        />
-        <Tab.Item
-          title="Account"
-          titleStyle={{fontSize: 12, color: theme.colors.secondary}}
-          icon={{name: 'cart', type: 'ionicon', color: theme.colors.secondary}}
+          icon={{
+            name: 'cash-outline',
+            type: 'ionicon',
+            color: theme.colors.secondary,
+          }}
         />
       </Tab>
     </>

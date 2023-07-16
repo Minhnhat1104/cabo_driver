@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
-import OTPinput from '../PhoneLogin/components/OTPinput';
+import OTPinput from '../components/OTPinput';
 import {Button, makeStyles, useTheme} from '@rneui/themed';
-import {SCREEN_HOME} from '@base/config/constants';
+import {screens} from '@base/config/screen';
 
 interface OTP {
   value: number | null;
@@ -53,7 +53,7 @@ const OTPScreen = (props: OTPScreenProps) => {
   const handleContinue = () => {
     // handle send OTP here
 
-    navigation.navigate(SCREEN_HOME);
+    navigation.navigate(screens.KEY_SCREEN_HOME);
   };
 
   return (
