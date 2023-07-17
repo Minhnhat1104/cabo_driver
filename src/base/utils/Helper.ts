@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const storeKeyData = async (key: string, value: any) => {
+export const storeKeyData = async (key: string, value: string) => {
   try {
     await AsyncStorage.setItem(key, value);
     console.log(`<<store>> ${key} --- ${value}`);
@@ -24,4 +24,11 @@ export const getKeyData = async (key: string) => {
     console.log('Reading local data error!');
     return null;
   }
+};
+
+export const moneyFormat = (amount: number = 0) => {
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency: 'VND',
+  }).format(amount);
 };

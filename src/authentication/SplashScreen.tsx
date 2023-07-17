@@ -9,7 +9,7 @@ const SplashScreen = ({navigation}: any) => {
   // Điều hướng đến màn hình đăng nhập sau khi hiển thị Splash Screen
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate(screens.KEY_SCREEN_HOME);
+      navigation.navigate(screens.KEY_SCREEN_PHONE_LOGIN);
     }, 3000);
   }, []);
 

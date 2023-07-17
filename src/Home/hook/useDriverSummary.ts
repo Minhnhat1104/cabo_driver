@@ -20,9 +20,7 @@ export const useDriverSummary = () => {
     queryKey: [driverId],
     queryFn: async () => {
       //   const data = await axios.get(`/api/v1/driver/${driverId}/overview`);
-      const res = await axios.get(
-        `/api/v1/driver/4TP3HAZNLlMuxPuOmnv5/overview`,
-      );
+      const res = await axios.get(`/api/v1/driver/${driverId}/overview`);
 
       return res?.data;
     },

@@ -4,22 +4,39 @@ import {View} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import PhoneInput from '@PhoneLogin/container/PhoneInput';
 import OTPInput from '@PhoneLogin/container/OTPInput';
-import {useTokenAuthen} from '@PhoneLogin/hook/useTokenAuthen';
-import {storeKeyData} from '@base/utils/Helper';
+import {getKeyData, storeKeyData} from '@base/utils/Helper';
 import {
   STORE_KEY_DRIVER_ID,
   STORE_KEY_TOKEN,
 } from '@base/config/asyncStorageKey';
 import {screens} from '@base/config/screen';
+import {useDriverRegister} from '@PhoneLogin/hook/useDriverRegister';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PhoneLoginScreen = ({navigation}: any) => {
   const {theme} = useTheme();
+
+  useEffect(() => {
+    const a = async () => await AsyncStorage.clear();
+    a();
+  }, []);
 
   // If null, no SMS has been sent
   const [confirm, setConfirm] = useState<any>(null);
   const [user, setUser] = useState({phoneNumber: '', fullName: ''});
 
-  const mPostToken = useTokenAuthen();
+  useEffect(() => {
+    const checkLoginBefore = async () => {
+      const driverId = await getKeyData(STORE_KEY_DRIVER_ID);
+      if (driverId) {
+        navigation.navigate(screens.KEY_SCREEN_HOME);
+      }
+    };
+
+    checkLoginBefore();
+  }, []);
+
+  const mDriverRegister = useDriverRegister();
 
   const handleLogin = async () => {
     // Xử lý logic đăng nhập ở đây
@@ -32,6 +49,21 @@ const PhoneLoginScreen = ({navigation}: any) => {
   async function confirmCode(code: string) {
     try {
       await confirm.confirm(code);
+
+      // register driver
+      const params = {
+        fullName: user?.fullName,
+        phoneNumber: user?.phoneNumber,
+      };
+      console.log('Driver register params:', params);
+      await mDriverRegister.mutate(params, {
+        onSuccess: async (data, variables, context) => {
+          if (data?.driverId) {
+            await storeKeyData(STORE_KEY_DRIVER_ID, data?.driverId);
+            navigation.navigate(screens.KEY_SCREEN_VEHICLE_REGISTER);
+          }
+        },
+      });
     } catch (error) {
       console.log('Invalid code.');
     }
@@ -49,23 +81,7 @@ const PhoneLoginScreen = ({navigation}: any) => {
       const newIdToken = await newUser?.getIdToken();
 
       if (newIdToken) {
-        storeKeyData(STORE_KEY_TOKEN, newIdToken);
-        // console.log(
-        //   '🚀 ~ file: PhoneLoginScreen.tsx:54 ~ newIdToken:',
-        //   newIdToken,
-        // );
-
-        // const params = {
-        //   fullName: user?.fullName,
-        //   phoneNumber: user?.phoneNumber,
-        // };
-        // mPostToken.mutate(params, {
-        //   onSuccess: (data, variables, context) => {
-        //     storeKeyData(STORE_KEY_DRIVER_ID, data?.driverId);
-
-        //     navigation.navigate(screens.KEY_SCREEN_VEHICLE_REGISTER);
-        //   },
-        // });
+        await storeKeyData(STORE_KEY_TOKEN, newIdToken);
       }
 
       // Some Android devices can automatically process the verification code (OTP) message, and the user would NOT need to enter the code.

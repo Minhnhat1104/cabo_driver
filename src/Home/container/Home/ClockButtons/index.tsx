@@ -1,6 +1,15 @@
+import {useCheckInMutation} from '@Home/hook/useCheckInMutation';
+import {useCheckOutMutation} from '@Home/hook/useCheckOutMutation';
+import {
+  STORE_KEY_DRIVER_ID,
+  STORE_KEY_TIME_CHECK_IN,
+} from '@base/config/asyncStorageKey';
+import {dateFormat} from '@base/utils/Date';
+import {getKeyData, storeKeyData} from '@base/utils/Helper';
 import {Button, makeStyles, useTheme} from '@rneui/themed';
 import React from 'react';
 import {StyleProp, View, ViewStyle} from 'react-native';
+import Snackbar from 'react-native-snackbar';
 
 interface ClockButtonsProps {
   [x: string]: any;
@@ -11,6 +20,44 @@ const ClockButtons = (props: ClockButtonsProps) => {
   const {style} = props;
   const styles = useStyles();
   const {theme} = useTheme();
+
+  // hooks
+  const mCheckIn = useCheckInMutation();
+  const mCheckOut = useCheckOutMutation();
+  // handle
+  const handleCheckIn = async () => {
+    const curTime = new Date();
+    const driverId = await getKeyData(STORE_KEY_DRIVER_ID);
+    const params = {
+      checkInAt: curTime.getTime(),
+      checkOutAt: null,
+      driverId: driverId,
+    };
+
+    mCheckIn.mutate(params, {
+      onSuccess: (data, variables, context) => {
+        storeKeyData(STORE_KEY_TIME_CHECK_IN, curTime.getTime().toString());
+      },
+    });
+
+    storeKeyData(STORE_KEY_TIME_CHECK_IN, curTime.getTime().toString());
+  };
+
+  const handleCheckOut = () => {
+    const curTime = new Date();
+    Snackbar.show({
+      text: `Check in successfully at ${dateFormat({
+        date: curTime,
+        format: 'mm:hh',
+      })}`,
+      duration: Snackbar.LENGTH_SHORT,
+      rtl: true,
+      backgroundColor: theme.colors.success,
+    });
+
+    storeKeyData(STORE_KEY_TIME_CHECK_IN, curTime.getTime().toString());
+  };
+
   return (
     <View style={[styles.container, style]}>
       <Button
@@ -20,7 +67,8 @@ const ClockButtons = (props: ClockButtonsProps) => {
           {
             marginRight: 16,
           },
-        ]}>
+        ]}
+        onPress={handleCheckIn}>
         Check in
       </Button>
       <Button

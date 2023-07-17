@@ -1,7 +1,10 @@
 import VehicleRegister from '@PhoneLogin/container/VehicleRegister';
 import {useVehicleRegister} from '@PhoneLogin/hook/useVehicleRegister';
 import DropdownSelect from '@base/components/DropdownSelect';
-import {STORE_KEY_VEHICLE} from '@base/config/asyncStorageKey';
+import {
+  STORE_KEY_DRIVER_ID,
+  STORE_KEY_VEHICLE,
+} from '@base/config/asyncStorageKey';
 import {screens} from '@base/config/screen';
 import {getKeyData, storeKeyData} from '@base/utils/Helper';
 import {Button, useTheme} from '@rneui/themed';
@@ -33,7 +36,7 @@ const VehicleRegisterScreen = ({navigation}: any) => {
 
   const mRegister = useVehicleRegister();
   const handleRegisterVehicle = async () => {
-    const driverId = await getKeyData('driverId');
+    const driverId = await getKeyData(STORE_KEY_DRIVER_ID);
     const params = {
       id: driverId,
       slot: vehicle.slot || 0,
@@ -62,20 +65,13 @@ const VehicleRegisterScreen = ({navigation}: any) => {
         value={vehicle}
         onChange={(nVal: any) => setVehicle(nVal)}
       />
-
       <Button
-        type="clear"
+        // type="solid"
         containerStyle={{
           marginTop: 16,
-          width: 'auto',
         }}
-        buttonStyle={{width: 'auto'}}
-        color={theme.colors.white}
         title="Continue"
-        titleStyle={{
-          color: theme.colors.white,
-          fontSize: 20,
-        }}
+        size="lg"
         onPress={handleRegisterVehicle}
       />
     </View>

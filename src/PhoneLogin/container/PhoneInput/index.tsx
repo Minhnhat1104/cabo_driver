@@ -95,18 +95,12 @@ const PhoneInput = (props: PhoneInputProps) => {
         </View>
 
         <Button
-          type="clear"
+          // type="solid"
           containerStyle={{
             marginTop: 16,
-            width: 'auto',
           }}
-          buttonStyle={{width: 'auto'}}
-          color={theme.colors.white}
           title="Continue"
-          titleStyle={{
-            color: theme.colors.white,
-            fontSize: 20,
-          }}
+          size="lg"
           onPress={handleContinue}
         />
       </View>

@@ -1,7 +1,10 @@
 import {useDriverSummary} from '@Home/hook/useDriverSummary';
+import {convertDateTimeSeverToClient} from '@base/utils/Date';
+import {moneyFormat} from '@base/utils/Helper';
 import {Text, makeStyles, useTheme} from '@rneui/themed';
 import React, {useEffect, useState} from 'react';
 import {StyleProp, View, ViewStyle} from 'react-native';
+import {Dialog} from '@rneui/themed';
 
 interface RecentDriveProps {
   style?: StyleProp<ViewStyle>;
@@ -10,7 +13,7 @@ interface RecentDriveProps {
 interface renderItem {
   languageKey: string;
   keyName: string;
-  getMapValue?: (value: any) => string;
+  getValue?: (value: any) => string;
 }
 
 const driverSummaryRender: renderItem[] = [
@@ -21,6 +24,7 @@ const driverSummaryRender: renderItem[] = [
   {
     languageKey: 'Average income per driver: ',
     keyName: 'averageIncomePerDrive',
+    getValue: value => moneyFormat(value),
   },
 ];
 
@@ -28,26 +32,27 @@ const recentDriveRender: renderItem[] = [
   {
     languageKey: 'Income: ',
     keyName: 'cost',
+    getValue: value => moneyFormat(value),
   },
   {
     languageKey: 'Distance: ',
     keyName: 'distance',
+    getValue: value => `${value}km`,
   },
   {
     languageKey: 'Start time: ',
     keyName: 'startTime',
+    getValue: value => convertDateTimeSeverToClient(value),
   },
   {
     languageKey: 'End time: ',
     keyName: 'endTime',
+    getValue: value => convertDateTimeSeverToClient(value),
   },
   {
     languageKey: 'Pick up time: ',
     keyName: 'pickUpTime',
-  },
-  {
-    languageKey: 'End time: ',
-    keyName: 'endTime',
+    getValue: value => convertDateTimeSeverToClient(value),
   },
   {
     languageKey: 'Departure location: ',
@@ -63,7 +68,7 @@ const RecentDrive = (props: RecentDriveProps) => {
   const {style} = props;
   const [item, setItem] = useState<any | null>(null);
 
-  const {data} = useDriverSummary();
+  const {data, isFetching} = useDriverSummary();
 
   useEffect(() => {
     if (data) {
@@ -75,25 +80,39 @@ const RecentDrive = (props: RecentDriveProps) => {
 
   const styles = useStyles();
   const {theme} = useTheme();
+
+  if (isFetching) {
+    return (
+      <Dialog isVisible={isFetching}>
+        <Dialog.Loading />
+      </Dialog>
+    );
+  }
+
   return (
     <View style={[styles.container, style]}>
       {/* driver summary */}
       <View style={styles.driverSummaryContainer}>
-        {driverSummaryRender.map((_item: renderItem, i: number) => (
-          <View
-            key={i}
-            style={[
-              styles.item,
-              i === driverSummaryRender.length - 1 ? {marginBottom: 0} : {},
-            ]}>
-            <Text style={[styles.languageKey, styles.driverSummaryText]}>
-              {_item.languageKey}
-            </Text>
-            <Text style={[styles.text, styles.driverSummaryText]}>
-              {item?.[_item.keyName]}
-            </Text>
-          </View>
-        ))}
+        {driverSummaryRender.map((_item: renderItem, i: number) => {
+          const value = _item?.getValue
+            ? _item?.getValue(item?.[_item.keyName])
+            : item?.[_item.keyName];
+          return (
+            <View
+              key={i}
+              style={[
+                styles.item,
+                i === driverSummaryRender.length - 1 ? {marginBottom: 0} : {},
+              ]}>
+              <Text style={[styles.languageKey, styles.driverSummaryText]}>
+                {_item.languageKey}
+              </Text>
+              <Text style={[styles.text, styles.driverSummaryText]}>
+                {value}
+              </Text>
+            </View>
+          );
+        })}
       </View>
 
       {/* drive summary */}
@@ -101,19 +120,22 @@ const RecentDrive = (props: RecentDriveProps) => {
         <Text style={styles.recentDriveHeader} h4>
           Recent Driver
         </Text>
-        {recentDriveRender.map((_item: renderItem, i: number) => (
-          <View
-            key={i}
-            style={[
-              styles.item,
-              i === driverSummaryRender.length - 1 ? {marginBottom: 0} : {},
-            ]}>
-            <Text style={[styles.languageKey]}>{_item.languageKey}</Text>
-            <Text style={[styles.text]}>
-              {item?.recentTrip?.[_item.keyName]}
-            </Text>
-          </View>
-        ))}
+        {recentDriveRender.map((_item: renderItem, i: number) => {
+          const value = _item?.getValue
+            ? _item?.getValue(item?.recentTrip?.[_item.keyName])
+            : item?.recentTrip?.[_item.keyName];
+          return (
+            <View
+              key={i}
+              style={[
+                styles.item,
+                i === driverSummaryRender.length - 1 ? {marginBottom: 0} : {},
+              ]}>
+              <Text style={[styles.languageKey]}>{_item.languageKey}</Text>
+              <Text style={[styles.text]}>{value}</Text>
+            </View>
+          );
+        })}
       </View>
     </View>
   );

@@ -21,9 +21,8 @@ const Home = (props: HomeProps) => {
         <Header style={{marginBottom: 8}} />
         <ClockButtons style={{marginBottom: 8}} />
       </View>
-      {/* <View style={{flex: 1, width: '100%', justifyContent: 'center'}}> */}
+      {/* ============= */}
       <RecentDrive style={{margin: 'auto', alignSelf: 'flex-end'}} />
-      {/* </View> */}
     </View>
   );
 };

@@ -22,7 +22,7 @@ const Header = (props: HeaderProps) => {
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Image
           source={{
-            uri: 'https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/358595166_661076079387902_5219462560343882944_n.jpg?stp=dst-jpg_p526x296&_nc_cat=108&ccb=1-7&_nc_sid=730e14&_nc_ohc=C3DSDpckkDYAX_dhE_l&_nc_ht=scontent.fsgn2-7.fna&oh=00_AfC702i-7AeY3UMCm0dROYMJxxBHvJPK-3HRN1w8jVEP1Q&oe=64B39C49',
+            uri: 'https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-1/314734138_3470157139974701_1196683337150141940_n.jpg?stp=cp6_dst-jpg_p200x200&_nc_cat=104&ccb=1-7&_nc_sid=7206a8&_nc_ohc=3vymVK8B1igAX-8l316&_nc_ht=scontent.fsgn2-5.fna&oh=00_AfDE3rrLb4Kn2JieMOCMV_1QnAuZmO4fYCpOjjp1VC0ymA&oe=64BA8EB9',
           }}
           containerStyle={styles.ava}
           PlaceholderContent={<ActivityIndicator />}

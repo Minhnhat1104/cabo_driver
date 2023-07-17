@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Button, makeStyles, useTheme} from '@rneui/themed';
 import OTPinput from '@PhoneLogin/components/OTPinput';
-import {screens} from '@base/config/screen';
 
 interface OTP {
   value: number | null;
@@ -53,9 +52,7 @@ const OTPInput = (props: OTPInputProps) => {
 
   const handleContinue = async () => {
     const otp = otps.map((v: any) => v?.value).join('');
-
     await onContinue(otp);
-    navigation.navigate(screens.KEY_SCREEN_HOME);
   };
 
   return (
@@ -73,19 +70,13 @@ const OTPInput = (props: OTPInputProps) => {
         })}
       </View>
       <Button
-        type="clear"
+        // type="solid"
         containerStyle={{
           marginTop: 16,
-          width: 'auto',
         }}
-        buttonStyle={{width: 'auto'}}
-        color={theme.colors.white}
         title="Continue"
-        titleStyle={{
-          color: theme.colors.white,
-          fontSize: 20,
-        }}
-        onPress={() => handleContinue()}
+        size="lg"
+        onPress={handleContinue}
       />
     </View>
   );
