@@ -3,11 +3,17 @@ import {useCheckOutMutation} from '@Home/hook/useCheckOutMutation';
 import {
   STORE_KEY_DRIVER_ID,
   STORE_KEY_TIME_CHECK_IN,
+  STORE_KEY_TIME_CHECK_OUT,
 } from '@base/config/asyncStorageKey';
-import {dateFormat} from '@base/utils/Date';
-import {getKeyData, storeKeyData} from '@base/utils/Helper';
-import {Button, makeStyles, useTheme} from '@rneui/themed';
-import React from 'react';
+import {
+  convertDateTimeSeverToClient,
+  dateFormat,
+  isNewDate,
+} from '@base/utils/Date';
+import {deleteKeyData, getKeyData, storeKeyData} from '@base/utils/Helper';
+import {Button, Dialog, makeStyles, useTheme} from '@rneui/themed';
+import dayjs from 'dayjs';
+import React, {useEffect, useState} from 'react';
 import {StyleProp, View, ViewStyle} from 'react-native';
 import Snackbar from 'react-native-snackbar';
 
@@ -20,6 +26,60 @@ const ClockButtons = (props: ClockButtonsProps) => {
   const {style} = props;
   const styles = useStyles();
   const {theme} = useTheme();
+  const [checkIn, setCheckIn] = useState<string>('');
+  const [checkOut, setCheckOut] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const resetNewday = () => {
+      deleteKeyData(STORE_KEY_TIME_CHECK_IN);
+      deleteKeyData(STORE_KEY_TIME_CHECK_OUT);
+      setCheckIn('');
+      setCheckOut('');
+    };
+
+    // resetNewday();
+
+    const checkIsCheckInBefore = async () => {
+      setIsLoading(true);
+      const checkInTime = await getKeyData(STORE_KEY_TIME_CHECK_IN);
+      const checkOutTime = await getKeyData(STORE_KEY_TIME_CHECK_OUT);
+
+      if (checkOutTime && checkInTime) {
+        if (!isNewDate(dayjs(checkOutTime))) {
+          setCheckIn(
+            convertDateTimeSeverToClient(Number(checkInTime), 'h:mm A'),
+          );
+          setCheckOut(
+            convertDateTimeSeverToClient(Number(checkOutTime), 'h:mm A'),
+          );
+        } else {
+          // reset checkin time if tomorrow
+          // console.log('Reset 1');
+          resetNewday();
+        }
+      } else if (checkInTime) {
+        // still on working in that day
+        if (!isNewDate(dayjs(checkInTime))) {
+          setCheckIn(
+            convertDateTimeSeverToClient(Number(checkInTime), 'h:mm A'),
+          );
+        } else {
+          // forget checkout -> reset time
+          // console.log('Reset 2');
+          resetNewday();
+        }
+      } else {
+        // no time -> reset time
+        // console.log('Reset 3');
+        resetNewday();
+      }
+
+      setIsLoading(false);
+    };
+
+    checkIsCheckInBefore();
+  }, []);
 
   // hooks
   const mCheckIn = useCheckInMutation();
@@ -36,27 +96,44 @@ const ClockButtons = (props: ClockButtonsProps) => {
 
     mCheckIn.mutate(params, {
       onSuccess: (data, variables, context) => {
-        storeKeyData(STORE_KEY_TIME_CHECK_IN, curTime.getTime().toString());
+        const checkInAt = variables?.checkInAt;
+        storeKeyData(STORE_KEY_TIME_CHECK_IN, checkInAt.toString());
+        setCheckIn(convertDateTimeSeverToClient(Number(checkInAt), 'h:mm A'));
+        setCheckOut('');
+      },
+    });
+  };
+
+  const handleCheckOut = async () => {
+    const curTime = new Date();
+    const checkInTime = await getKeyData(STORE_KEY_TIME_CHECK_IN);
+    const driverId = await getKeyData(STORE_KEY_DRIVER_ID);
+
+    const params = {
+      checkInAt: checkInTime,
+      // checkInAt: checkInTime,
+      checkOutAt: curTime.getTime(),
+      driverId: driverId,
+    };
+
+    mCheckOut.mutate(params, {
+      onSuccess: (data, variables, context) => {
+        const checkOutAt = variables?.checkOutAt;
+        storeKeyData(STORE_KEY_TIME_CHECK_OUT, checkOutAt.toString());
+        setCheckOut(convertDateTimeSeverToClient(Number(checkOutAt), 'h:mm A'));
       },
     });
 
     storeKeyData(STORE_KEY_TIME_CHECK_IN, curTime.getTime().toString());
   };
 
-  const handleCheckOut = () => {
-    const curTime = new Date();
-    Snackbar.show({
-      text: `Check in successfully at ${dateFormat({
-        date: curTime,
-        format: 'mm:hh',
-      })}`,
-      duration: Snackbar.LENGTH_SHORT,
-      rtl: true,
-      backgroundColor: theme.colors.success,
-    });
-
-    storeKeyData(STORE_KEY_TIME_CHECK_IN, curTime.getTime().toString());
-  };
+  if (isLoading) {
+    return (
+      <Dialog isVisible={isLoading}>
+        <Dialog.Loading />
+      </Dialog>
+    );
+  }
 
   return (
     <View style={[styles.container, style]}>
@@ -68,16 +145,18 @@ const ClockButtons = (props: ClockButtonsProps) => {
             marginRight: 16,
           },
         ]}
+        loading={mCheckIn.isLoading}
+        disabled={!!checkIn}
         onPress={handleCheckIn}>
-        Check in
+        {checkIn || 'Check in'}
       </Button>
       <Button
         size="lg"
         containerStyle={[styles.button]}
-        buttonStyle={{
-          backgroundColor: '#ccc',
-        }}>
-        Check out
+        loading={mCheckOut.isLoading}
+        disabled={!!checkOut}
+        onPress={handleCheckOut}>
+        {checkOut || 'Check out'}
       </Button>
     </View>
   );

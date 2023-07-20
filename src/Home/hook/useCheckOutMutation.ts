@@ -16,9 +16,7 @@ export const useCheckOutMutation = () => {
     onSuccess(data, variables, context) {
       const checkOutAt = variables?.checkOutAt;
       mSuccess(
-        `Check out successfully at ${convertDateTimeSeverToClient(
-          checkOutAt,
-        )})}`,
+        `Check out successfully at ${convertDateTimeSeverToClient(checkOutAt)}`,
       );
     },
     onError(data, variables, context) {

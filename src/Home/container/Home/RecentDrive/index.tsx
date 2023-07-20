@@ -37,7 +37,7 @@ const recentDriveRender: renderItem[] = [
   {
     languageKey: 'Distance: ',
     keyName: 'distance',
-    getValue: value => `${value}km`,
+    getValue: value => `${value || 0}km`,
   },
   {
     languageKey: 'Start time: ',

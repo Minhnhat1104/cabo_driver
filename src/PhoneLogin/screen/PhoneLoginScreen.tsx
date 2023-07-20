@@ -16,11 +16,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const PhoneLoginScreen = ({navigation}: any) => {
   const {theme} = useTheme();
 
-  useEffect(() => {
-    const a = async () => await AsyncStorage.clear();
-    a();
-  }, []);
-
   // If null, no SMS has been sent
   const [confirm, setConfirm] = useState<any>(null);
   const [user, setUser] = useState({phoneNumber: '', fullName: ''});
@@ -28,6 +23,7 @@ const PhoneLoginScreen = ({navigation}: any) => {
   useEffect(() => {
     const checkLoginBefore = async () => {
       const driverId = await getKeyData(STORE_KEY_DRIVER_ID);
+      console.log('Currenct driverId', driverId);
       if (driverId) {
         navigation.navigate(screens.KEY_SCREEN_HOME);
       }

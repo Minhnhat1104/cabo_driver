@@ -1,5 +1,3 @@
-// import axios from '@base/components/axios';
-
 import axios from '@base/components/axios';
 import {useSnackbar} from '@base/hook/useSnackbar';
 import {convertDateTimeSeverToClient, dateFormat} from '@base/utils/Date';
@@ -15,10 +13,10 @@ export const useCheckInMutation = () => {
     onSuccess(data, variables, context) {
       const checkInAt = variables?.checkInAt;
       mSuccess(
-        `Check in successfully at ${convertDateTimeSeverToClient(checkInAt)})}`,
+        `Check in successfully at ${convertDateTimeSeverToClient(checkInAt)}`,
       );
     },
-    onError(data, variables, context) {
+    onError(error, variables, context) {
       mError(`Check in Fail!`);
     },
   });

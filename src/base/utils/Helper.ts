@@ -11,6 +11,17 @@ export const storeKeyData = async (key: string, value: string) => {
   }
 };
 
+export const deleteKeyData = async (key: string, callback?: () => void) => {
+  try {
+    await AsyncStorage.removeItem(key, callback);
+    console.log(`<<delete>> ${key}`);
+  } catch (e) {
+    // saving error
+    console.log('Delete local data error!');
+    return null;
+  }
+};
+
 export const getKeyData = async (key: string) => {
   try {
     const value = await AsyncStorage.getItem(key);

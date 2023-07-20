@@ -1,12 +1,18 @@
-import dayjs from 'dayjs';
+import dayjs, {Dayjs} from 'dayjs';
 
-export const convertDateTimeSeverToClient = (utcSeconds: number) => {
-  var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-  d.setUTCSeconds(utcSeconds);
-  const date = dayjs(d);
+export const convertDateTimeSeverToClient = (
+  utcSeconds: number,
+  format?: string,
+) => {
+  const date = dayjs(utcSeconds);
 
   // Format the date in "dd-mm-yyyy" format
-  const formattedDate = date.format('hh:mm | DD-MM-YYYY');
+  let formattedDate = '';
+  if (format) {
+    formattedDate = date.format(format);
+  } else {
+    formattedDate = date.format('h:mm A | DD/MM/YYYY');
+  }
   return formattedDate;
 };
 
@@ -22,4 +28,9 @@ export const dateFormat = ({
   format: string;
 }) => {
   return dayjs(date).format(format);
+};
+
+export const isNewDate = (date: Dayjs) => {
+  dayjs().isSame(date, 'day');
+  return false;
 };
