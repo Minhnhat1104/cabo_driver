@@ -8,9 +8,12 @@ import {ThemeProvider} from '@rneui/themed';
 import {theme} from '@base/theme';
 import {routes} from '@base/routes';
 import {Route} from '@base/types/route';
-import {SCREEN_SPLASH} from '@base/config/constants';
 import {firebase} from '@react-native-firebase/app-check';
 const queryClient = new QueryClient();
+
+import {PermissionsAndroid} from 'react-native';
+import {SCREEN_SPLASH} from '@base/config/screen';
+// PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
 const App = () => {
   const appCheck = firebase.appCheck();

@@ -72,6 +72,7 @@ const VehicleRegisterScreen = ({navigation}: any) => {
         }}
         title="Continue"
         size="lg"
+        loading={mRegister.isLoading}
         onPress={handleRegisterVehicle}
       />
     </View>

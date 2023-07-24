@@ -1,10 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Tab, Text, TabView, useTheme, Button} from '@rneui/themed';
+import messaging from '@react-native-firebase/messaging';
 import Home from '@Home/container/Home';
+import {storeKeyData} from '@base/utils/Helper';
+import {STORE_KEY_FCM_TOKEN} from '@base/config/asyncStorageKey';
 
 function HomeScreen({navigation}: any) {
   const {theme} = useTheme();
   const [index, setIndex] = React.useState(0);
+
+  useEffect(() => {
+    const getFCMtoken = async () => {
+      const token = await messaging().getToken();
+      console.log('FCM token:', token);
+      storeKeyData(STORE_KEY_FCM_TOKEN, token);
+    };
+
+    getFCMtoken();
+  }, []);
 
   return (
     <>

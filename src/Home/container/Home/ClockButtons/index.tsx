@@ -154,7 +154,7 @@ const ClockButtons = (props: ClockButtonsProps) => {
         size="lg"
         containerStyle={[styles.button]}
         loading={mCheckOut.isLoading}
-        disabled={!!checkOut}
+        disabled={!!checkOut || !checkIn}
         onPress={handleCheckOut}>
         {checkOut || 'Check out'}
       </Button>

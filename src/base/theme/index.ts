@@ -4,6 +4,7 @@ import {ThemeProvider, Button} from 'react-native-elements';
 export const Color = {
   secondary: '#403949',
   accent: '#ffc6bc',
+  divider: '#ccc',
   blueBackground: '#D3F5FE',
   purpleBackground: '#EEE1FF',
   yellowBackground: '#E6F69C',
@@ -20,6 +21,11 @@ export const theme = createTheme({
       },
       containerStyle: {
         borderRadius: 8,
+      },
+    },
+    Divider: {
+      style: {
+        backgroundColor: Color.divider,
       },
     },
     Input: {
