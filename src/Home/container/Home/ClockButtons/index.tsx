@@ -46,7 +46,7 @@ const ClockButtons = (props: ClockButtonsProps) => {
       const checkOutTime = await getKeyData(STORE_KEY_TIME_CHECK_OUT);
 
       if (checkOutTime && checkInTime) {
-        if (!isNewDate(dayjs(checkOutTime))) {
+        if (!isNewDate(Number(checkOutTime))) {
           setCheckIn(
             convertDateTimeSeverToClient(Number(checkInTime), 'h:mm A'),
           );
@@ -60,7 +60,7 @@ const ClockButtons = (props: ClockButtonsProps) => {
         }
       } else if (checkInTime) {
         // still on working in that day
-        if (!isNewDate(dayjs(checkInTime))) {
+        if (!isNewDate(Number(checkInTime))) {
           setCheckIn(
             convertDateTimeSeverToClient(Number(checkInTime), 'h:mm A'),
           );

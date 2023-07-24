@@ -30,7 +30,15 @@ export const dateFormat = ({
   return dayjs(date).format(format);
 };
 
-export const isNewDate = (date: Dayjs) => {
-  dayjs().isSame(date, 'day');
-  return false;
+export const isNewDate = (epochTime: number) => {
+  const date = dayjs(epochTime || 0);
+  const curDate = dayjs();
+  if (
+    curDate.isSame(date, 'day') &&
+    curDate.isSame(date, 'month') &&
+    curDate.isSame(date, 'year')
+  ) {
+    return false;
+  }
+  return true;
 };
