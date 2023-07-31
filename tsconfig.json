@@ -8,7 +8,8 @@
       "@theme/*": ["src/base/theme/*"],
       "@authentication/*": ["src/authentication/*"],
       "@PhoneLogin/*": ["src/PhoneLogin/*"],
-      "@Home/*": ["src/Home/*"]
+      "@Home/*": ["src/Home/*"],
+      "@OnDrive/*": ["src/OnDrive/*"]
     }
   }
 }

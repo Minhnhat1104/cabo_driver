@@ -21,6 +21,7 @@ module.exports = {
       '@theme': path.resolve(__dirname, 'src/base/theme'),
       '@authentication': path.resolve(__dirname, 'src/authentication'),
       '@PhoneLogin': path.resolve(__dirname, 'src/PhoneLogin'),
+      '@OnDrive': path.resolve(__dirname, 'src/OnDrive'),
       '@Home': path.resolve(__dirname, 'src/Home'),
     },
   },

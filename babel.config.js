@@ -11,6 +11,7 @@ module.exports = {
           '@authentication': './src/authentication',
           '@PhoneLogin': './src/PhoneLogin',
           '@Home': './src/Home',
+          '@OnDrive': './src/OnDrive',
         },
       },
     ],

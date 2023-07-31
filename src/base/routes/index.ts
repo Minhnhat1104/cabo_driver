@@ -5,12 +5,18 @@ import OTPScreen from '@PhoneLogin/screen/OTPVerificationScreen';
 import SplashScreen from '@authentication/SplashScreen';
 import PhoneLoginScreen from '@PhoneLogin/screen/PhoneLoginScreen';
 import VehicleRegisterScreen from '@PhoneLogin/screen/VehicleRegisterScreen';
+import OnDrive from '@OnDrive/screen';
 import {screens} from '@base/config/screen';
 
 export const routes: Route[] = [
   {
     name: screens.KEY_SCREEN_SPLASH,
     component: SplashScreen,
+    options: {headerShown: false},
+  },
+  {
+    name: screens.KEY_SCREEN_ON_DRIVE,
+    component: OnDrive,
     options: {headerShown: false},
   },
   {
