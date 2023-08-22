@@ -45,18 +45,7 @@ const OnComingCustomer = () => {
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.mapContainer}> */}
-      {/* <MapView
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      /> */}
-
       <View style={styles.mapContainer}>
-        {/* <View style={mapStyles.container}> */}
         <MapView
           provider={PROVIDER_GOOGLE} // remove if not using Google Maps
           style={mapStyles.map}
@@ -68,9 +57,7 @@ const OnComingCustomer = () => {
           }}
           // region={region}
           onRegionChange={handleRegionChange}></MapView>
-        {/* </View> */}
       </View>
-      {/* </View> */}
       <View>
         <Text h4>Customer name 2</Text>
         <Text style={{textAlign: 'justify'}}>

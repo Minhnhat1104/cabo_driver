@@ -14,6 +14,9 @@ import {
   KEY_FCM_BOOKING_OPEN,
   KEY_FCM_GPS,
 } from '@Home/config/constants';
+import {useGPSMutation} from '@Home/hook/useGPSMutation';
+import {getKeyData} from '@base/utils/Helper';
+import {STORE_KEY_DRIVER_ID} from '@base/config/asyncStorageKey';
 
 interface HomeProps {
   navigation: any;
@@ -26,6 +29,7 @@ const Home = (props: HomeProps) => {
   const [position, setPosition] = useState<any>(null);
   console.log('Current position:', position);
   const {theme} = useTheme();
+  const mGPS = useGPSMutation();
 
   useEffect(() => {
     // Get GPS data
@@ -52,6 +56,16 @@ const Home = (props: HomeProps) => {
       const title = remoteMessage?.notification?.title;
       if (title === KEY_FCM_GPS) {
         // handle post GPS
+        const driverId = await getKeyData(STORE_KEY_DRIVER_ID);
+        const params = {
+          uid: driverId,
+          currentLocation: {
+            latitude: 0,
+            longitude: 0,
+          },
+        };
+        console.log('🚀 ~ file: index.tsx:67 ~ params:', params);
+        // mGPS.mutate()
       } else if (title === KEY_FCM_BOOKING_OPEN) {
         setShowDriveDialog(true);
       } else if (title === KEY_FCM_BOOKING_CLOSE) {

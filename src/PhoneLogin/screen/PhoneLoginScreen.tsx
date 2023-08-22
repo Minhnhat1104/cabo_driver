@@ -1,6 +1,7 @@
 import {useTheme} from '@rneui/themed';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
+
 import auth from '@react-native-firebase/auth';
 import PhoneInput from '@PhoneLogin/container/PhoneInput';
 import OTPInput from '@PhoneLogin/container/OTPInput';
@@ -8,6 +9,7 @@ import {getKeyData, storeKeyData} from '@base/utils/Helper';
 import {
   STORE_KEY_DRIVER_ID,
   STORE_KEY_TOKEN,
+  STORE_KEY_UID,
 } from '@base/config/asyncStorageKey';
 import {screens} from '@base/config/screen';
 import {useDriverRegister} from '@PhoneLogin/hook/useDriverRegister';
@@ -36,10 +38,17 @@ const PhoneLoginScreen = ({navigation}: any) => {
 
   const handleLogin = async () => {
     // Xử lý logic đăng nhập ở đây
-    const confirmation = await auth().signInWithPhoneNumber(
-      '+1' + user?.phoneNumber,
-    );
-    setConfirm(confirmation);
+    try {
+      console.log('User:', user);
+
+      const confirmation = await auth().signInWithPhoneNumber(
+        '+1' + user?.phoneNumber,
+      );
+      console.log('Confirmation after:', confirmation);
+      setConfirm(confirmation);
+    } catch (error) {
+      console.log('Error: ', error);
+    }
   };
 
   async function confirmCode(code: string) {
@@ -75,9 +84,13 @@ const PhoneLoginScreen = ({navigation}: any) => {
   async function onAuthStateChanged(newUser: any) {
     if (newUser) {
       const newIdToken = await newUser?.getIdToken();
-
       if (newIdToken) {
         await storeKeyData(STORE_KEY_TOKEN, newIdToken);
+      }
+
+      const newUID = await newUser?.uid;
+      if (newUID) {
+        await storeKeyData(STORE_KEY_UID, newUID);
       }
 
       // Some Android devices can automatically process the verification code (OTP) message, and the user would NOT need to enter the code.
