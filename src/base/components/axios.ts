@@ -3,7 +3,7 @@ import {getKeyData} from '@base/utils/Helper';
 import axios, {AxiosInstance, InternalAxiosRequestConfig} from 'axios';
 
 const instance: AxiosInstance = axios.create({
-  baseURL: 'https://driver-skdsnc7tha-uc.a.run.app/',
+  baseURL: 'http://10.65.0.23:9191/',
   timeout: 3000,
   headers: {'X-Custom-Header': 'foobar'},
 });
@@ -14,6 +14,7 @@ instance.interceptors.request.use(
     try {
       // Lấy token từ AsyncStorage
       const token = await getKeyData(STORE_KEY_TOKEN);
+      console.log('🚀 ~ file: axios.ts:17 ~ token:', token);
 
       if (token) {
         // Gắn token vào header của request

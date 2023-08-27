@@ -17,7 +17,7 @@ export const routes: Route[] = [
   {
     name: screens.KEY_SCREEN_ON_DRIVE,
     component: OnDrive,
-    options: {headerShown: false},
+    options: {headerShown: true},
   },
   {
     name: screens.KEY_SCREEN_PHONE_LOGIN,

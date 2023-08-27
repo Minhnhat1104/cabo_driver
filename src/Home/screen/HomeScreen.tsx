@@ -2,18 +2,30 @@ import React, {useEffect} from 'react';
 import {Tab, Text, TabView, useTheme, Button} from '@rneui/themed';
 import messaging from '@react-native-firebase/messaging';
 import Home from '@Home/container/Home';
-import {storeKeyData} from '@base/utils/Helper';
-import {STORE_KEY_FCM_TOKEN} from '@base/config/asyncStorageKey';
+import {getKeyData, storeKeyData} from '@base/utils/Helper';
+import {
+  STORE_KEY_CAR_TYPE,
+  STORE_KEY_FCM_TOKEN,
+} from '@base/config/asyncStorageKey';
+import {useFcmTokenMutation} from '@Home/hook/useFcmTokenMutation';
 
 function HomeScreen({navigation}: any) {
   const {theme} = useTheme();
   const [index, setIndex] = React.useState(0);
+
+  const mFcmMutate = useFcmTokenMutation();
 
   useEffect(() => {
     const getFCMtoken = async () => {
       const token = await messaging().getToken();
       console.log('FCM token:', token);
       storeKeyData(STORE_KEY_FCM_TOKEN, token);
+      const carType = await getKeyData(STORE_KEY_CAR_TYPE);
+      const params = {
+        fcmToken: token,
+        carType,
+      };
+      mFcmMutate.mutate(params);
     };
 
     getFCMtoken();

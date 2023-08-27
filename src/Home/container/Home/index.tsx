@@ -16,7 +16,8 @@ import {
 } from '@Home/config/constants';
 import {useGPSMutation} from '@Home/hook/useGPSMutation';
 import {getKeyData} from '@base/utils/Helper';
-import {STORE_KEY_DRIVER_ID} from '@base/config/asyncStorageKey';
+import {STORE_KEY_DRIVER_ID, STORE_KEY_UID} from '@base/config/asyncStorageKey';
+import {useSnackbar} from '@base/hook/useSnackbar';
 
 interface HomeProps {
   navigation: any;
@@ -25,11 +26,12 @@ interface HomeProps {
 const Home = (props: HomeProps) => {
   const {navigation} = props;
   const styles = useStyles();
-  const [showDriveDialog, setShowDriveDialog] = useState<boolean>(false);
+  const [showDriveDialog, setShowDriveDialog] = useState<any>(null);
+  console.log('ShowDriveDialog:', showDriveDialog);
   const [position, setPosition] = useState<any>(null);
-  console.log('Current position:', position);
   const {theme} = useTheme();
   const mGPS = useGPSMutation();
+  const {mError} = useSnackbar();
 
   useEffect(() => {
     // Get GPS data
@@ -45,31 +47,49 @@ const Home = (props: HomeProps) => {
     );
 
     // Clean up to avoid memory leaks
-    return () => {
-      Geolocation.stopObserving();
-    };
+    // return () => {
+    //   Geolocation.stopObserving();
+    // };
   }, []);
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('RemoteMessage FCM:', remoteMessage);
-      const title = remoteMessage?.notification?.title;
-      if (title === KEY_FCM_GPS) {
+      const category = remoteMessage?.data?.category;
+      if (category === KEY_FCM_GPS) {
         // handle post GPS
-        const driverId = await getKeyData(STORE_KEY_DRIVER_ID);
-        const params = {
-          uid: driverId,
-          currentLocation: {
-            latitude: 0,
-            longitude: 0,
+
+        const uId = await getKeyData(STORE_KEY_UID);
+
+        Geolocation.getCurrentPosition(
+          position => {
+            const params = {
+              uid: uId,
+              currentLocation: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              },
+            };
+            mGPS.mutate(params);
+
+            setPosition({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
           },
-        };
-        console.log('🚀 ~ file: index.tsx:67 ~ params:', params);
-        // mGPS.mutate()
-      } else if (title === KEY_FCM_BOOKING_OPEN) {
-        setShowDriveDialog(true);
-      } else if (title === KEY_FCM_BOOKING_CLOSE) {
-        setShowDriveDialog(false);
+          error => console.log(error),
+          {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+        );
+      } else if (category === KEY_FCM_BOOKING_OPEN) {
+        try {
+          const bookingInfo = remoteMessage?.data;
+          setShowDriveDialog(bookingInfo);
+        } catch (error) {
+          mError('Invalid booking info!');
+        }
+      } else if (category === KEY_FCM_BOOKING_CLOSE) {
+        setShowDriveDialog(null);
+        mError('Drive is not available anymore!');
       }
     });
 
@@ -85,12 +105,14 @@ const Home = (props: HomeProps) => {
       </View>
       {/* ============= */}
       {/* <RecentDrive style={{margin: 'auto', alignSelf: 'flex-end'}} /> */}
-      {showDriveDialog && (
-        <IcomingDriveDialog
-          visible={showDriveDialog}
-          onBackdropPress={() => setShowDriveDialog(false)}
-        />
-      )}
+      {/* {!!showDriveDialog && ( */}
+      <IcomingDriveDialog
+        visible={!!showDriveDialog}
+        bookingInfo={showDriveDialog}
+        onBackdropPress={() => setShowDriveDialog(null)}
+        navigation={navigation}
+      />
+      {/* )} */}
     </View>
   );
 };

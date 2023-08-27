@@ -2,6 +2,7 @@ import VehicleRegister from '@PhoneLogin/container/VehicleRegister';
 import {useVehicleRegister} from '@PhoneLogin/hook/useVehicleRegister';
 import DropdownSelect from '@base/components/DropdownSelect';
 import {
+  STORE_KEY_CAR_TYPE,
   STORE_KEY_DRIVER_ID,
   STORE_KEY_VEHICLE,
 } from '@base/config/asyncStorageKey';
@@ -45,8 +46,9 @@ const VehicleRegisterScreen = ({navigation}: any) => {
       brand: vehicle.brand,
     };
     mRegister.mutate(params, {
-      onSuccess(data, variables, context) {
-        storeKeyData(STORE_KEY_VEHICLE, data?.vehicleId);
+      onSuccess: async (data, variables, context) => {
+        await storeKeyData(STORE_KEY_VEHICLE, data?.vehicleId);
+        await storeKeyData(STORE_KEY_CAR_TYPE, vehicle.type);
         navigation.navigate(screens.KEY_SCREEN_HOME);
       },
     });

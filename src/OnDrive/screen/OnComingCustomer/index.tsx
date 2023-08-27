@@ -1,4 +1,10 @@
+import {usePickUpMutation} from '@OnDrive/hook/usePickUpMutation';
+import {
+  STORE_KEY_DRIVER_ID,
+  STORE_KEY_TRIP_ID,
+} from '@base/config/asyncStorageKey';
 import {POSITION_HCMUS} from '@base/config/positions';
+import {getKeyData} from '@base/utils/Helper';
 import Geolocation from '@react-native-community/geolocation';
 import {Button, Icon, Text, makeStyles, useTheme} from '@rneui/themed';
 import React, {useEffect, useState} from 'react';
@@ -15,6 +21,9 @@ const OnComingCustomer = () => {
   const [position, setPosition] = useState<any>(null);
   console.log('Current position:', position);
   const {theme} = useTheme();
+
+  //hook
+  const mPickUp = usePickUpMutation();
 
   useEffect(() => {
     // Get GPS data
@@ -41,6 +50,32 @@ const OnComingCustomer = () => {
   const handleRegionChange = (nVal: any) => {
     console.log('Region change:', nVal);
     setRegion(nVal);
+  };
+
+  const handlePickUp = async () => {
+    const driverId = await getKeyData(STORE_KEY_DRIVER_ID);
+    const tripId = await getKeyData(STORE_KEY_TRIP_ID);
+
+    Geolocation.getCurrentPosition(
+      position => {
+        const params = {
+          driverId,
+          tripId,
+          currentLocation: {
+            latitude: 0,
+            longitude: 0,
+          },
+        };
+        mPickUp.mutate(params);
+
+        setPosition({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      },
+      error => console.log(error),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+    );
   };
 
   return (
@@ -85,7 +120,9 @@ const OnComingCustomer = () => {
           </View>
         </View>
         <View style={{marginTop: 8}}>
-          <Button>Pick Up</Button>
+          <Button loading={mPickUp.isLoading} onPress={handlePickUp}>
+            Pick Up
+          </Button>
         </View>
       </View>
     </View>

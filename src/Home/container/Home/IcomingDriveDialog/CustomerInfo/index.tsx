@@ -5,10 +5,17 @@ import {useTheme, makeStyles} from 'react-native-elements';
 
 interface CustomerInfoProps {
   // style: StyleProp<ViewStyle>;
+  customerInfo: any;
 }
 
 const CustomerInfo = (props: CustomerInfoProps) => {
-  // const {style} = props;
+  const {customerInfo} = props;
+
+  const {
+    fullName = 'Full name',
+    phoneNumber = 'Phone number',
+    avatar,
+  } = customerInfo || {};
   const styles = useStyles();
   const {theme} = useTheme();
   return (
@@ -22,8 +29,8 @@ const CustomerInfo = (props: CustomerInfoProps) => {
           PlaceholderContent={<ActivityIndicator />}
         />
         <View style={styles.info}>
-          <Text style={styles.nameText}>Le Minh Nhat</Text>
-          <Text style={styles.phoneText}>0774122075</Text>
+          <Text style={styles.nameText}>{fullName}</Text>
+          <Text style={styles.phoneText}>{phoneNumber}</Text>
         </View>
       </View>
     </View>
