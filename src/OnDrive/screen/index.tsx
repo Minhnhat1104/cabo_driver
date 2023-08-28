@@ -12,7 +12,7 @@ const OnDriveScreen = (props: OnDriveScreenProps) => {
   const {navigation} = props;
   return (
     <View style={styles.container}>
-      <OnComingCustomer />
+      <OnComingCustomer navigation={navigation} />
     </View>
   );
 };

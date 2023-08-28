@@ -105,14 +105,14 @@ const Home = (props: HomeProps) => {
       </View>
       {/* ============= */}
       {/* <RecentDrive style={{margin: 'auto', alignSelf: 'flex-end'}} /> */}
-      {/* {!!showDriveDialog && ( */}
-      <IcomingDriveDialog
-        visible={!!showDriveDialog}
-        bookingInfo={showDriveDialog}
-        onBackdropPress={() => setShowDriveDialog(null)}
-        navigation={navigation}
-      />
-      {/* )} */}
+      {!!showDriveDialog && (
+        <IcomingDriveDialog
+          visible={!!showDriveDialog}
+          bookingInfo={showDriveDialog}
+          onBackdropPress={() => setShowDriveDialog(null)}
+          navigation={navigation}
+        />
+      )}
     </View>
   );
 };

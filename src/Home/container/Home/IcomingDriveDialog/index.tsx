@@ -62,13 +62,15 @@ const IcomingDriveDialog = (props: IcomingDriveDialogProps) => {
         mAccept.mutate(params, {
           onSuccess: async () => {
             await storeKeyData(STORE_KEY_TRIP_ID, tripId);
-            navigation.navigate(screens.KEY_SCREEN_ON_DRIVE);
+            navigation.navigate(screens.KEY_SCREEN_ON_DRIVE, bookingInfo);
           },
         });
       },
       error => console.log(error),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
+
+    onBackdropPress && onBackdropPress();
   };
 
   const Footer = (
