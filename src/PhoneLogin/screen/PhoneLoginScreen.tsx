@@ -64,7 +64,7 @@ const PhoneLoginScreen = ({navigation}: any) => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
-  }, []);
+  }, [user]);
 
   async function onAuthStateChanged(newUser: any) {
     if (newUser) {

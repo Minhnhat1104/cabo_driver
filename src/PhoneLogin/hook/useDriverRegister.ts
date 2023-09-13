@@ -16,7 +16,7 @@ export const useDriverRegister = () => {
       mSuccess(`Register driver successfully!`);
     },
     onError(data, variables, context) {
-      mError(`Register driver Fail!`);
+      // mError(`Register driver Fail!`);
     },
   });
 

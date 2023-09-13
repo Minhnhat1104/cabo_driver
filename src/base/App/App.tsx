@@ -12,7 +12,7 @@ import {firebase} from '@react-native-firebase/app-check';
 const queryClient = new QueryClient();
 
 import {PermissionsAndroid} from 'react-native';
-import {SCREEN_ON_DRIVE, SCREEN_SPLASH} from '@base/config/screen';
+import {SCREEN_HOME, SCREEN_ON_DRIVE, SCREEN_SPLASH} from '@base/config/screen';
 // PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
 const App = () => {

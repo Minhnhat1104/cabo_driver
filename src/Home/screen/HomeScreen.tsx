@@ -8,6 +8,8 @@ import {
   STORE_KEY_FCM_TOKEN,
 } from '@base/config/asyncStorageKey';
 import {useFcmTokenMutation} from '@Home/hook/useFcmTokenMutation';
+import History from '@Home/container/History';
+import Finance from '@Home/container/Finance';
 
 function HomeScreen({navigation}: any) {
   const {theme} = useTheme();
@@ -38,13 +40,10 @@ function HomeScreen({navigation}: any) {
           <Home navigation={navigation} />
         </TabView.Item>
         <TabView.Item style={{backgroundColor: 'white', width: '100%'}}>
-          <Text h1>History</Text>
+          <History navigation={navigation} />
         </TabView.Item>
         <TabView.Item style={{backgroundColor: 'white', width: '100%'}}>
-          <Text h1>Wallet</Text>
-        </TabView.Item>
-        <TabView.Item style={{backgroundColor: 'white', width: '100%'}}>
-          <Text h1>Account</Text>
+          <Finance navigation={navigation} />
         </TabView.Item>
       </TabView>
       <Tab
@@ -53,6 +52,9 @@ function HomeScreen({navigation}: any) {
         indicatorStyle={{
           backgroundColor: theme.colors.primary,
           height: 3,
+        }}
+        style={{
+          backgroundColor: theme.colors.white,
         }}
         variant="default">
         <Tab.Item

@@ -4,8 +4,7 @@ export const convertDateTimeSeverToClient = (
   utcSeconds: number,
   format?: string,
 ) => {
-  const date = dayjs(utcSeconds);
-
+  const date = dayjs.unix(utcSeconds);
   // Format the date in "dd-mm-yyyy" format
   let formattedDate = '';
   if (format) {

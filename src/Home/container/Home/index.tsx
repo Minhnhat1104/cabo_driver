@@ -18,6 +18,7 @@ import {useGPSMutation} from '@Home/hook/useGPSMutation';
 import {getKeyData} from '@base/utils/Helper';
 import {STORE_KEY_DRIVER_ID, STORE_KEY_UID} from '@base/config/asyncStorageKey';
 import {useSnackbar} from '@base/hook/useSnackbar';
+import RecentDrive from './RecentDrive';
 
 interface HomeProps {
   navigation: any;
@@ -101,10 +102,10 @@ const Home = (props: HomeProps) => {
       <View style={{width: '100%', marginBottom: 20}}>
         <Header style={{marginBottom: 8}} />
         <ClockButtons style={{marginBottom: 8}} />
-        <Button onPress={() => setShowDriveDialog(true)}>Show dialog</Button>
+        {/* <Button onPress={() => setShowDriveDialog(true)}>Show dialog</Button> */}
       </View>
       {/* ============= */}
-      {/* <RecentDrive style={{margin: 'auto', alignSelf: 'flex-end'}} /> */}
+      <RecentDrive style={{margin: 'auto', alignSelf: 'flex-end'}} />
       {!!showDriveDialog && (
         <IcomingDriveDialog
           visible={!!showDriveDialog}

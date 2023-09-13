@@ -3,7 +3,7 @@ import {getKeyData} from '@base/utils/Helper';
 import axios, {AxiosInstance, InternalAxiosRequestConfig} from 'axios';
 
 const instance: AxiosInstance = axios.create({
-  baseURL: 'https://24ea-14-161-25-153.ngrok-free.app/',
+  baseURL: 'https://tops-endless-imp.ngrok-free.app/',
   timeout: 3000,
   headers: {'X-Custom-Header': 'foobar'},
 });

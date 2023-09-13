@@ -32,12 +32,11 @@ const recentDriveRender: renderItem[] = [
   {
     languageKey: 'Income: ',
     keyName: 'cost',
-    getValue: value => moneyFormat(value),
+    // getValue: value => moneyFormat(value),
   },
   {
     languageKey: 'Distance: ',
     keyName: 'distance',
-    getValue: value => `${value || 0}km`,
   },
   {
     languageKey: 'Start time: ',
@@ -69,6 +68,7 @@ const RecentDrive = (props: RecentDriveProps) => {
   const [item, setItem] = useState<any | null>(null);
 
   const {data, isFetching} = useDriverSummary();
+  console.log('🚀 ~ file: index.tsx:71 ~ data:', data);
 
   useEffect(() => {
     if (data) {
