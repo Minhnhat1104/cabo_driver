@@ -9,7 +9,13 @@ import {theme} from '@base/theme';
 import {routes} from '@base/routes';
 import {Route} from '@base/types/route';
 import {firebase} from '@react-native-firebase/app-check';
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0, // Set staleTime to 0 for all queries
+    },
+  },
+});
 
 import {PermissionsAndroid} from 'react-native';
 import {SCREEN_HOME, SCREEN_ON_DRIVE, SCREEN_SPLASH} from '@base/config/screen';

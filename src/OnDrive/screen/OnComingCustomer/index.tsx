@@ -144,7 +144,6 @@ const OnComingCustomer = (props: OnComingCustomerProps) => {
         };
         mPickUp.mutate(params, {
           onSuccess(data, variables, context) {
-            navigation.navigate(screens.KEY_SCREEN_HOME);
             setPickUp(true);
           },
         });
@@ -179,6 +178,7 @@ const OnComingCustomer = (props: OnComingCustomerProps) => {
         };
         mFinish.mutate(params, {
           onSuccess(data, variables, context) {
+            navigation.navigate(screens.KEY_SCREEN_HOME);
             setPickUp(true);
           },
         });

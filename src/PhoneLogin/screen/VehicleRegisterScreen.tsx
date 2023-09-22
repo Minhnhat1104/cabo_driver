@@ -1,4 +1,5 @@
 import VehicleRegister from '@PhoneLogin/container/VehicleRegister';
+import {useDriverRegister} from '@PhoneLogin/hook/useDriverRegister';
 import {useVehicleRegister} from '@PhoneLogin/hook/useVehicleRegister';
 import DropdownSelect from '@base/components/DropdownSelect';
 import {
@@ -8,12 +9,15 @@ import {
 } from '@base/config/asyncStorageKey';
 import {screens} from '@base/config/screen';
 import {getKeyData, storeKeyData} from '@base/utils/Helper';
+import {useRoute} from '@react-navigation/native';
 import {Button, useTheme} from '@rneui/themed';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 
 const VehicleRegisterScreen = ({navigation}: any) => {
   const {theme} = useTheme();
+  const route = useRoute();
+  const driverRegisterParams: any = route.params;
 
   // If null, no SMS has been sent
   const [vehicle, setVehicle] = useState({
@@ -35,8 +39,20 @@ const VehicleRegisterScreen = ({navigation}: any) => {
     getKeyData2();
   }, []);
 
+  const mDriverRegister = useDriverRegister();
   const mRegister = useVehicleRegister();
   const handleRegisterVehicle = async () => {
+    // register driver
+    console.log('Driver register params:', driverRegisterParams);
+    await mDriverRegister.mutate(driverRegisterParams, {
+      onSuccess: async (data, variables, context) => {
+        if (data?.driverId) {
+          await storeKeyData(STORE_KEY_DRIVER_ID, data?.driverId);
+        }
+      },
+    });
+
+    // register vehicle
     const driverId = await getKeyData(STORE_KEY_DRIVER_ID);
     const params = {
       id: driverId,

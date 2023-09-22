@@ -12,8 +12,6 @@ import {
   STORE_KEY_UID,
 } from '@base/config/asyncStorageKey';
 import {screens} from '@base/config/screen';
-import {useDriverRegister} from '@PhoneLogin/hook/useDriverRegister';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PhoneLoginScreen = ({navigation}: any) => {
   const {theme} = useTheme();
@@ -33,8 +31,6 @@ const PhoneLoginScreen = ({navigation}: any) => {
 
     checkLoginBefore();
   }, []);
-
-  const mDriverRegister = useDriverRegister();
 
   const handleLogin = async () => {
     // Xử lý logic đăng nhập ở đây
@@ -79,19 +75,19 @@ const PhoneLoginScreen = ({navigation}: any) => {
       }
 
       // register driver
-      const params = {
+      const driverRegisterParams = {
         fullName: user?.fullName,
         phoneNumber: user?.phoneNumber,
       };
-      console.log('Driver register params:', params);
-      await mDriverRegister.mutate(params, {
-        onSuccess: async (data, variables, context) => {
-          if (data?.driverId) {
-            await storeKeyData(STORE_KEY_DRIVER_ID, data?.driverId);
-            navigation.navigate(screens.KEY_SCREEN_VEHICLE_REGISTER);
-          }
-        },
-      });
+      const driverId = await getKeyData(STORE_KEY_DRIVER_ID);
+      if (driverId) {
+        navigation.navigate(screens.KEY_SCREEN_HOME);
+      } else {
+        navigation.navigate(
+          screens.KEY_SCREEN_VEHICLE_REGISTER,
+          driverRegisterParams,
+        );
+      }
 
       // Some Android devices can automatically process the verification code (OTP) message, and the user would NOT need to enter the code.
       // Actually, if he/she tries to enter it, he/she will get an error message because the code was already used in the background.

@@ -41,17 +41,17 @@ const recentDriveRender: renderItem[] = [
   {
     languageKey: 'Start time: ',
     keyName: 'startTime',
-    getValue: value => convertDateTimeSeverToClient(value),
+    getValue: value => (value ? convertDateTimeSeverToClient(value) : ''),
   },
   {
     languageKey: 'End time: ',
     keyName: 'endTime',
-    getValue: value => convertDateTimeSeverToClient(value),
+    getValue: value => (value ? convertDateTimeSeverToClient(value) : ''),
   },
   {
     languageKey: 'Pick up time: ',
     keyName: 'pickUpTime',
-    getValue: value => convertDateTimeSeverToClient(value),
+    getValue: value => (value ? convertDateTimeSeverToClient(value) : ''),
   },
   {
     languageKey: 'Departure location: ',
@@ -68,7 +68,6 @@ const RecentDrive = (props: RecentDriveProps) => {
   const [item, setItem] = useState<any | null>(null);
 
   const {data, isFetching} = useDriverSummary();
-  console.log('🚀 ~ file: index.tsx:71 ~ data:', data);
 
   useEffect(() => {
     if (data) {
